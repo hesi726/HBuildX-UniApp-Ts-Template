@@ -1,54 +1,53 @@
-const plugins = []
+const plugins = [];
 
 if (process.env.UNI_OPT_TREESHAKINGNG) {
-  plugins.push(require('@dcloudio/vue-cli-plugin-uni-optimize/packages/babel-plugin-uni-api/index.js'))
+  plugins.push(require("@dcloudio/vue-cli-plugin-uni-optimize/packages/babel-plugin-uni-api/index.js"));
 }
 
-if (process.env.UNI_PLATFORM === 'app-plus' && process.env.UNI_USING_V8) {
-  const path = require('path')
-
-  const isWin = /^win/.test(process.platform)
-
-  const normalizePath = path => (isWin ? path.replace(/\\/g, '/') : path)
-
-  const input = normalizePath(process.env.UNI_INPUT_DIR)
+if (process.env.UNI_PLATFORM === "app-plus" && process.env.UNI_USING_V8) {
+  const path = require("path");
+  const isWin = /^win/.test(process.platform);
+  const normalizePath = (xpath) => (isWin ? xpath.replace(/\\/g, "/") : xpath);
+  const input = normalizePath(process.env.UNI_INPUT_DIR);
   try {
     plugins.push([
-      require('@dcloudio/vue-cli-plugin-hbuilderx/packages/babel-plugin-console'),
+      require("@dcloudio/vue-cli-plugin-hbuilderx/packages/babel-plugin-console"),
       {
-        file (file) {
-          file = normalizePath(file)
+        file(file) {
+          file = normalizePath(file);
           if (file.indexOf(input) === 0) {
-            return path.relative(input, file)
+            return path.relative(input, file);
           }
-          return false
-        }
-      }
-    ])
-  } catch (e) {}
+          return false;
+        },
+      },
+    ]);
+  } catch (e) {
+    let xx = e;
+  }
 }
 
-process.UNI_LIBRARIES = process.UNI_LIBRARIES || ['@dcloudio/uni-ui']
+process.UNI_LIBRARIES = process.UNI_LIBRARIES || ["@dcloudio/uni-ui"];
 process.UNI_LIBRARIES.forEach(libraryName => {
   plugins.push([
-    'import',
+    "import",
     {
-      'libraryName': libraryName,
-      'customName': (name) => {
-        return `${libraryName}/lib/${name}/${name}`
-      }
-    }
-  ])
-})
+      customName: (name) => {
+        return `${libraryName}/lib/${name}/${name}`;
+      },
+      libraryName: libraryName,
+    },
+  ]);
+});
 module.exports = {
+  plugins,
   presets: [
     [
-      '@vue/app',
+      "@vue/app",
       {
-        modules: 'commonjs',
-        useBuiltIns: process.env.UNI_PLATFORM === 'h5' ? 'usage' : 'entry'
-      }
-    ]
+        modules: "commonjs",
+        useBuiltIns: process.env.UNI_PLATFORM === "h5" ? "usage" : "entry",
+      },
+    ],
   ],
-  plugins
-}
+};
