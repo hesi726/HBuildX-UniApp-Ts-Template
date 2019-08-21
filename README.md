@@ -9,7 +9,8 @@ import { Component, Emit, Prop, Vue } from "vue-property-decorator";
 export default class BaseUniComponent extends Vue{  
 	@Prop({ default: null})  
 	propInParent: null | string;  
-} 
+}  
+  
 **子组件 UserMoneyDetail.ts (继承子父组件，并且定义了一个子组件内的 prop)**  
 import { Component, Emit, Prop, Vue } from "vue-property-decorator";  
 import BaseUniComponent from './Basic/BaseUniComponent';  
@@ -17,7 +18,8 @@ import BaseUniComponent from './Basic/BaseUniComponent';
 export default class UserIncome extends BaseUniComponent {  
 	@Prop({default: null})  
 	propInComponent: null | string;  
-}    
+}   
+  
 **子组件页面:  UserMoneyDetail.vue ( 显示传入进来的 prop 的值）**  
 <template>  
 	<view class="content">  
@@ -26,7 +28,8 @@ export default class UserIncome extends BaseUniComponent {
 	</view>  
 </template>  
 <script lang="ts" src='./UserMoneyDetail.ts'></script>    
-** 入口页面 unientry.ts **     
+
+** 入口页面 unientry.ts **   
 import { Component, Emit, Prop, Vue } from "vue-property-decorator";  
 import UserMoney from './UserMoneyDetail.vue';  
 @Component({  
@@ -36,7 +39,8 @@ import UserMoney from './UserMoneyDetail.vue';
 })  
 export default class index extends Vue {  
 	title: string = 'Hello';  
-}   
+}  
+
 **入口页面 unientry.vue (分别绑定了定义在子组件内部的 prop 和 子组件继承自父类的 prop) **  
 <template>  
 	<view>  
