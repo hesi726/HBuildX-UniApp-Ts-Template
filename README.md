@@ -2,13 +2,13 @@
 1. 如何解决 从父组件继承下来的 prop 的无法在微信小程序绑定的问题; 
 项目转到 TS 以后，基本就没有使用过 Js 了。。所以下面的所有代码都使用 TS 作为说明; (PS.，我的项目的 ts 和 vue 是分开的）。
 
-**父组件 BaseUniComponent.ts  就是定义了一个 父组件中的 prop ** 
+**父组件 BaseUniComponent.ts  就是定义了一个 父组件中的 prop** 
 import { Component, Emit, Prop, Vue } from "vue-property-decorator";
 export default class BaseUniComponent extends Vue{
 	@Prop({ default: null})
 	propInParent: null | string;
 }
-**子组件 UserMoneyDetail.ts (继承子父组件，并且定义了一个子组件内的 prop) **
+**子组件 UserMoneyDetail.ts (继承子父组件，并且定义了一个子组件内的 prop)**
 import { Component, Emit, Prop, Vue } from "vue-property-decorator";
 import BaseUniComponent from './Basic/BaseUniComponent';
 @Component({})
