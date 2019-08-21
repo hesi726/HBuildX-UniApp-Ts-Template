@@ -1,0 +1,58 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**"
+    ]
+  },
+  "rules": {
+    "quotemark": [false, "single"],
+    "indent": [false, "spaces", 4],
+    "interface-name": false,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "object-literal-key-quotes": false,
+    "no-angle-bracket-type-assertion": false,
+    "no-consecutive-blank-lines": false,
+    "jsdoc-format": false,
+    "max-classes-per-file": false,
+    "member-access": false,
+    "class-name": false,
+    "no-console": false,
+    "no-bitwise": false,
+    "member-ordering": false,
+    "max-line-length": false,
+    "max-file-line-count": false,
+    "no-any": false,
+    "no-namespace": false,
+    "no-internal-module": false,
+    "no-empty-interface": false,
+    "no-var-requires": false,
+    "variable-name": false,
+    "object-literal-shorthand": false,
+    "curly": false,
+    "no-trailing-whitespace": false,
+    "one-line":false,
+    "array-type":false,
+    "prefer-const": false,
+    "prefer-for-of": false,
+    "comment-format": false,
+    "trailing-comma": false,
+    "whitespace": false,
+    "space-before-function-paren": false,
+    "no-shadowed-variable": false,
+    "no-empty": false,
+    "ban-types": false,
+    "semicolon": false,
+    "arrow-return-shorthand": false,
+    "align": false,
+    "triple-equals": false,
+    "no-string-literal": false,
+    "only-arrow-functions": false,
+    "radix": false,
+    "eofline": false
+  }
+}
