@@ -1,7 +1,21 @@
 # 使用 HBuildX、UniApp 和 TypeScript 的项目模板
 项目转到 TS 以后，基本就没有使用过 Js 了。。
 所以下面的所有代码都使用 TS 作为说明; (PS.，我的项目的 ts 和 vue 是分开的）。
-1. 解决  **从父组件继承下来的 prop 的无法在微信小程序绑定** 的问题; 
+
+2019-08-26. Bug **页面和内部使用的组件无法共享同一个对象** 
+
+例如，我的例子，在 uniEntry.ts 中定义了一个 Person对象 给子组件 UserMoneyDetail 使用；
+然后在子组件中对页面传入进来的 Person 对象的字段，这些改变无法体现到页面的任何地方；
+mp.runtime.esm.js 中 3891行对 Vue.prototype._update 进行了修改，
+其调用了 5563行的 patch 方法，此方法中调用了 5550行的 cloneWithData 方法，
+cloneWithData 方法中对对象了 Json序列化 和 反序列化，
+这使得，页面给子组件中通过 Prop 绑定的 Person 对象，不是页面中的 Person 对象；
+这也就使得子组件修改 Person 对象时，对任何外部数据都没有任何影响；
+
+看了看 Vue 里面的 patch 方法，被吓到了。。（此方法大约 1800行代码， 5480行--6184行）；约占整个 VUE代码的 1/6； 
+PS.稀奇了, 2019-08-23 的问题无法重现了
+
+2019-08-23. 解决  **从父组件继承下来的 prop 的无法在微信小程序绑定** 的问题; 
 **父组件 BaseUniComponent.ts  就是定义了一个 父组件中的 prop ** 
 
        import { Component, Emit, Prop, Vue } from "vue-property-decorator";
