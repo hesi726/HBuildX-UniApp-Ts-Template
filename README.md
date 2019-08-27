@@ -7,100 +7,107 @@
 
 根据  http://www.typescriptlang.org/docs/handbook/decorators.html  添加自定义修饰方法
 
-       
+      
 export function enumerable(value: boolean) {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-        descriptor.enumerable = value;
-    };
+    
+	  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        
+		descriptor.enumerable = value;
+    
+	  };
+       
 }
 
 给 Person.ts 中的 nameInGet 添加标注 (必须，因为不添加标注的话，nameInGet 在深度复制时无法显示在 for .. in 访问到的对象属性中)
-import { enumerable } from './Decorators';
-....
-	@enumerable(true)
-	get nameInGet(): string {
+
+       import { enumerable } from './Decorators';
+       ........
+       @enumerable(true)
+       get nameInGet(): string {
 		console.log('准备通过 get 去获取 name');
 		return this.name;
-	}
+       }
 	
 
 修改 mp.runtime.esm.js 添加如下的深度复制对象的方法, 
-
        
-/**  https://www.jianshu.com/p/b084dfaad501  
-**/
-function  xcloneWithData(data) {
-      const type = judgeType(data);
-      let obj;
-      if (type === 'array') {
-        obj = [];
-      } else if (type === 'object') {
-        obj = {};
-      } else {
-    // 不再具有下一层次
-        return data;
-      }
-      if (type === 'array') {
-        // eslint-disable-next-line
-        for (let i = 0, len = data.length; i < len; i++) {
-          obj.push(xcloneWithData(data[i]));
-        }
-      } else if (type === 'object') {
-        // 对原型上的方法也拷贝了....
-        // eslint-disable-next-line
-        for (const key in data) {
-          obj[key] = xcloneWithData(data[key]);
-        }
-      }
-      return obj;
-}
+       /**
+       *  根据https://www.jianshu.com/p/b084dfaad501 改用深度复制方法;
+       **/
+       function  xcloneWithData(data) {
+	      const type = judgeType(data);
+	      let obj;
+	      if (type === 'array') {
+		obj = [];
+	      } else if (type === 'object') {
+		obj = {};
+	      } else {
+	    // 不再具有下一层次
+		return data;
+	      }
+	      if (type === 'array') {
+		// eslint-disable-next-line
+		for (let i = 0, len = data.length; i < len; i++) {
+		  obj.push(xcloneWithData(data[i]));
+		}
+	      } else if (type === 'object') {
+		// 对原型上的方法也拷贝了....
+		// eslint-disable-next-line
+		for (const key in data) {
+		  obj[key] = xcloneWithData(data[key]);
+		}
+	      }
+	      return obj;
+	}
 
-function  judgeType(obj) {
-  // tostring会返回对应不同的标签的构造函数
-      const toString = Object.prototype.toString;
-      const map = {
-        '[object Boolean]': 'boolean',
-        '[object Number]': 'number',
-        '[object String]': 'string',
-        '[object Function]': 'function',
-        '[object Array]': 'array',
-        '[object Date]': 'date',
-        '[object RegExp]': 'regExp',
-        '[object Undefined]': 'undefined',
-        '[object Null]': 'null',
-        '[object Object]': 'object',
-      };
-      /*if (obj instanceof Element) {
-        return 'element';
-      }*/
-      return map[toString.call(obj)];
-}
-	
-/** 修改 cloneWithData 方法，**/
-function cloneWithData(vm) {
-  // 确保当前 vm 所有数据被同步
-  var ret = Object.create(null);
-  var dataKeys = [].concat(
-    Object.keys(vm._data || {}),
-    Object.keys(vm._computedWatchers || {}));
 
-  dataKeys.reduce(function(ret, key) {
-    ret[key] = vm[key];
-    return ret
-  }, ret);
-  //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
-  Object.assign(ret, vm.$mp.data || {});
-  if (
-    Array.isArray(vm.$options.behaviors) &&
-    vm.$options.behaviors.indexOf('uni://form-field') !== -1
-  ) { //form-field
-    ret['name'] = vm.name;
-    ret['value'] = vm.value;
-  }
-	
-  return xcloneWithData(ret);  //使用自定义的 深度复制对象的方法而不是使用 JSON序列化和反序列化;
-  //return JSON.parse(JSON.stringify(ret))
-}
+	function  judgeType(obj) {
+	  // tostring会返回对应不同的标签的构造函数
+	      const toString = Object.prototype.toString;
+	      const map = {
+		'[object Boolean]': 'boolean',
+		'[object Number]': 'number',
+		'[object String]': 'string',
+		'[object Function]': 'function',
+		'[object Array]': 'array',
+		'[object Date]': 'date',
+		'[object RegExp]': 'regExp',
+		'[object Undefined]': 'undefined',
+		'[object Null]': 'null',
+		'[object Object]': 'object',
+	      };
+	      /*if (obj instanceof Element) {
+		return 'element';
+	      }*/
+	      return map[toString.call(obj)];
+	}
+		
+	 
+
+	function cloneWithData(vm) {
+	  // 确保当前 vm 所有数据被同步
+	  var ret = Object.create(null);
+	  var dataKeys = [].concat(
+	    Object.keys(vm._data || {}),
+	    Object.keys(vm._computedWatchers || {}));
+
+	  dataKeys.reduce(function(ret, key) {
+	    ret[key] = vm[key];
+	    return ret
+	  }, ret);
+	  //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
+	  Object.assign(ret, vm.$mp.data || {});
+	  if (
+	    Array.isArray(vm.$options.behaviors) &&
+	    vm.$options.behaviors.indexOf('uni://form-field') !== -1
+	  ) { //form-field
+	    ret['name'] = vm.name;
+	    ret['value'] = vm.value;
+	  }
+		
+	  return xcloneWithData(ret);
+	  //return JSON.parse(JSON.stringify(ret))
+       }
 
 
 2019-08-26. Bug **页面和内部组件传递Prop时参数类型丢失**
@@ -119,7 +126,7 @@ function cloneWithData(vm) {
 			console.log('准备通过 get 去获取 name');
 			return this.name;
 		}
-}
+       }
 
 
 在页面 unientry.ts 定义了一个 Person 的一个实例, 并将此实例通过 prop 转到子组件中: 
