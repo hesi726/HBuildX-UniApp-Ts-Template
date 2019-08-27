@@ -3,7 +3,7 @@
 		<view>根组件的title: {{title}}</view>
 		<view>根组件的Person:{{person.name}}--{{person.jsonSerializeTimes}}</view>		
 		<hr/>
-		<UserMoney :assignperson.sync='person' :propInComponent='title' :propInParent='title'></UserMoney>
+		<UserMoneyDetail :assignperson.sync='person' :propInComponent='title' :propInParent='title'></UserMoneyDetail>
 		<br>
 		<hr>
 		<view>跟组件的元素</view>	

@@ -4,4 +4,5 @@ export default class BaseUniComponent extends Vue{
 	propInParent: null | string;
 		
 	tipsInParent: string = "Tips in Parent";
+	
 }

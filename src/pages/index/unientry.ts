@@ -1,9 +1,9 @@
 import { Component, Emit, Prop, Vue } from "vue-property-decorator";
-import UserMoney from './UserMoneyDetail.vue';
+import UserMoneyDetail from './UserMoneyDetail.vue';
 import Person from './Person';
 @Component({
 	components: {
-		UserMoney		
+		UserMoneyDetail		
 	}
 })
 export default class UniEntry extends Vue {
