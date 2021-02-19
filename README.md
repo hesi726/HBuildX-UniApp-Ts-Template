@@ -4,10 +4,12 @@ Our project convert to Typescript, so i use javascript seldom.
 所以下面的所有代码都使用 TS 作为说明; (PS.，我的项目的 ts 和 vue 是分开的）。    
 Our project split the typescript file and the vue component file.  
 
-2019-08-27. **临时解决 2019-08-26 的问题**  
-只是真的太复杂了一点;   
+2019-08-27. **临时解决 2019-08-26 的问题**   
+Cannot transfer get method property of plain object from one component to other component .    
+只是真的太复杂了一点;     
+It seems a little complex.  
 
-根据  http://www.typescriptlang.org/docs/handbook/decorators.html  添加自定义修饰方法
+根据  http://www.typescriptlang.org/docs/handbook/decorators.html  添加自定义修饰方法  
 add then self decrotators function. 
       
 export function enumerable(value: boolean) {
