@@ -55,7 +55,7 @@
     "@vue/cli-plugin-typescript": "^3.5.1",
     "@vue/cli-service": "^3.0.5",
     "babel-plugin-import": "^1.11.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "postcss-comment": "^2.0.0",
     "typescript": "^3.0.0",
     "vue-template-compiler": "^2.6.10",
